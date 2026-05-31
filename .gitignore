@@ -40,6 +40,7 @@ auth.json
 *.jpg
 *.gif
 *.jpeg
+*.ico
 .DS_Store
 .env
 .env.backup
