@@ -37,6 +37,7 @@ auth.json
 *.log
 *.svg
 *.png
+*.jpg
 *.gif
 *.jpeg
 .DS_Store
