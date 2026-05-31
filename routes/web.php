@@ -3,14 +3,17 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsUser;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Only Authenticated Verified And User Role Can Access This->
+Route::middleware(['auth', 'verified', IsUser::class])->group(function () {
+    Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -18,6 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+// Only Authenticated Verified And Admin Role Can Access This->
+Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+});
 
 require __DIR__.'/auth.php';
