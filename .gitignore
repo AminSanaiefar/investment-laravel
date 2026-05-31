@@ -40,7 +40,7 @@ auth.json
 *.jpg
 *.gif
 *.jpeg
-*.ico
+*.icoupdate .gitignoreupdate .gitignore
 .DS_Store
 .env
 .env.backup
