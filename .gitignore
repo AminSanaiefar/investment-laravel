@@ -35,6 +35,10 @@ Homestead.json
 .phpactor.json
 auth.json
 *.log
+*.svg
+*.png
+*.gif
+*.jpeg
 .DS_Store
 .env
 .env.backup
