@@ -24,6 +24,8 @@ Route::middleware('auth')->group(function () {
 // Only Authenticated Verified And Admin Role Can Access This->
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+    Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
+    Route::post('/admin/profile/update', [AdminController::class, 'AdminProfileUpdate'])->name('admin.profile.update');
 });
 
 require __DIR__.'/auth.php';

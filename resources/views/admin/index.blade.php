@@ -3,7 +3,7 @@
 
 @section('content')
     <header class="page-header">
-        <h2>Dark Layout</h2>
+        <h2>Dashboard</h2>
 
         <div class="right-wrapper text-end">
             <ol class="breadcrumbs">
