@@ -40,13 +40,12 @@ class ImageService
             $width = $imageSize['width'] ?? null;
             $height = $imageSize['height'] ?? null;
 
-            $img->scale(
+            $img->cover(
                 width: $width,
                 height: $height
             );
         }
 
-        // ذخیره
         $img->save(
             $fullPath,
             quality: $quality

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Services\ImageService;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -14,7 +15,7 @@ class AdminController extends Controller
     }
 
     public function AdminProfile() {
-        return view("admin.profile", ["user"=> Auth::user()]);
+        return view("admin.profile");
     }
 
     public function AdminProfileUpdate(Request $request, ImageService $imageService) {
@@ -56,5 +57,34 @@ class AdminController extends Controller
             );
         }
         return redirect()->back()->with($notification);
+    }
+
+    public function AdminPasswordUpdate(Request $request) {
+        $request->validate([
+            'current_password' => 'required|min:8',
+            'new_password' => 'required|min:8',
+            'password_confirmation' => 'required|min:8|same:new_password'
+        ]);
+
+        $notification = array(
+            'message' => 'Password updated successfully.',
+            'alert-type' => 'success',
+        );
+        
+        if (Hash::check($request->input('current_password'), Auth::user()->password)) {
+            Auth::user()->update(['password' => $request->input('new_password')]);
+            
+            // log out the user
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            
+            return redirect()->back()->with($notification);
+        } else {
+            $notification['message'] = 'Current password is invalid';
+            $notification['alert-type'] = 'error';
+
+            return redirect()->back()->withInput()->with($notification)->withErrors(['current_password' => 'current password is invalid.']);
+        }
     }
 }

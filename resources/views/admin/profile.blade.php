@@ -24,10 +24,10 @@
         <section class="card">
             <div class="card-body">
                 <div class="thumb-info mb-3">
-                    <img id="showProfilePhoto" src="{{ !empty($user->photo) ? asset($user->photo) : asset('upload/no-profile.svg') }}" class="rounded img-fluid" alt="John Doe" >
+                    <img id="showProfilePhoto" src="{{ !empty(Auth::user()->photo) ? asset(Auth::user()->photo) : asset('upload/no-profile.svg') }}" class="rounded img-fluid" alt="John Doe" >
                     <div class="thumb-info-title">
-                        <span class="thumb-info-inner">{{ $user->name }}</span>
-                        <span class="thumb-info-type">{{  $user->email }}</span>
+                        <span class="thumb-info-inner">{{ Auth::user()->name }}</span>
+                        <span class="thumb-info-type">{{  Auth::user()->email }}</span>
                     </div>
                 </div>
                 <hr class="dotted short">
@@ -47,7 +47,7 @@
             <div class="row mb-3">
                 <div class="form-group @error('address') has-danger @enderror">
                     <label for="address">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" value="{{ $user->address }}" placeholder="enter your address">
+                    <input type="text" class="form-control" id="address" name="address" value="{{ Auth::user()->address }}" placeholder="enter your address">
                     @error('address')
                         <span class="text-danger error">
                             {{ $message }}
@@ -58,7 +58,7 @@
             <div class="row mb-3">
                 <div class="col-md-6 @error('first_name') has-danger @enderror">
                     <label for="first_name">First Name</label>
-                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ $user->first_name }}" placeholder="enter first name">
+                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ Auth::user()->first_name }}" placeholder="enter first name">
                     @error('first_name')
                         <span class="text-danger error">
                             {{ $message }}
@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-md-6 @error('last_name') has-danger @enderror">
                     <label for="last_name">Last Name</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ $user->last_name }}" placeholder="last last name">
+                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ Auth::user()->last_name }}" placeholder="last last name">
                     @error('last_name')
                         <span class="text-danger error">
                             {{ $message }}
@@ -79,11 +79,11 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="email">email</label>
-                    <input type="text" class="form-control" id="email" value="{{ $user->email }}" readonly="readonly" placeholder="enter email">
+                    <input type="text" class="form-control" id="email" value="{{ Auth::user()->email }}" readonly="readonly" placeholder="enter email">
                 </div>
                 <div class="col-md-6 @error('phone') has-danger @enderror">
                     <label for="phone">phone</label>
-                    <input type="text" class="form-control" id="phone" name="phone" value="{{ $user->phone }}" placeholder="enter phone number">
+                    <input type="text" class="form-control" id="phone" name="phone" value="{{ Auth::user()->phone }}" placeholder="enter phone number">
                     @error('phone')
                         <span class="text-danger error">
                             {{ $message }}
@@ -109,21 +109,46 @@
             </div>
         </form>
 
-        <form action="{{ route('admin.profile.update') }}" method="POST" class="p-3">
+        <form action="{{ route('admin.password.update') }}" method="POST" class="p-3">
             <hr class="dotted tall">
-
             <h4 class="mb-3 font-weight-semibold text-dark">Change Password</h4>
+
             <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">New Password</label>
-                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                </div>
-                <div class="form-group col-md-6 border-top-0 pt-0">
-                    <label for="inputPassword5">Re New Password</label>
-                    <input type="password" class="form-control" id="inputPassword5" placeholder="Password">
+                <div class="form-group col-md-6 mb-3 @error('current_password') has-danger @enderror">
+                    <label for="inputPassword4">Current Password</label>
+                    <input type="password" class="form-control" name="current_password" id="currentPassword" value="{{ old('current_password') }}" placeholder="Current Password">
+                    @error('current_password')
+                        <span class="text-danger error">
+                            {{ $message }}
+                        </span>
+                    @enderror
                 </div>
             </div>
 
+            <div class="row">
+                <div class="form-group col-md-6 mb-3 @error('new_password') has-danger @enderror">
+                    <label for="inputPassword4">New Password</label>
+                    <input type="password" class="form-control" name="new_password" id="newPassword4" value="{{ old('new_password') }}" placeholder="New Password">
+                    @error('new_password')
+                        <span class="text-danger error">
+                            {{ $message }}
+                        </span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6 mb-3 @error('password_confirmation') has-danger @enderror">
+                    <label for="inputPassword5">Confirm New Password</label>
+                    <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" value="{{ old('password_confirmation') }}" placeholder="Confirm New Password">
+                    @error('password_confirmation')
+                        <span class="text-danger error">
+                            {{ $message }}
+                        </span>
+                    @enderror
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-md-12 mt-3">
                     <button class="btn btn-primary modal-confirm">Change Password</button>
