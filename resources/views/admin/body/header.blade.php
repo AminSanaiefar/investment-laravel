@@ -82,11 +82,11 @@
         <div id="userbox" class="userbox">
             <a href="#" data-bs-toggle="dropdown">
                 <figure class="profile-picture">
-                    <img src="{{asset('backend/img/!logged-user.jpg')}}" alt="Joseph Doe" class="rounded-circle" data-lock-picture="img/!logged-user.jpg" />
+                    <img src="{{ !empty($user->photo) ? asset($user->photo) : asset('upload/no-profile.svg') }}" alt="Joseph Doe" class="rounded-circle" data-lock-picture="img/!logged-user.jpg" />
                 </figure>
                 <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-                    <span class="name">John Doe Junior</span>
-                    <span class="role">Administrator</span>
+                    <span class="name">{{ Auth::user()->name }}</span>
+                    <span class="role">{{  Auth::user()->email }}</span>
                 </div>
 
                 <i class="fa custom-caret"></i>
