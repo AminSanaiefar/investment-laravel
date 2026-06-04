@@ -1,7 +1,6 @@
 <!doctype html>
 <html class="fixed dark">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -40,6 +39,9 @@
 
 		<!-- Head Libs -->
 		<script src="{{ asset('backend/vendor/modernizr/modernizr.js') }}"></script>
+
+		<!-- Toaster -->
+    	<link href="{{asset('assets/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
 
         <!-- Additional CSS's -->
         @stack('styles')
@@ -98,12 +100,6 @@
 		<script src="{{ asset('backend/vendor/jqvmap/jquery.vmap.js') }}"></script>
 		<script src="{{ asset('backend/vendor/jqvmap/data/jquery.vmap.sampledata.js') }}"></script>
 		<script src="{{ asset('backend/vendor/jqvmap/maps/jquery.vmap.world.js') }}"></script>
-		<script src="{{ asset('backend/vendor/jqvmap/maps/continents/jquery.vmap.africa.js') }}"></script>
-		<script src="{{ asset('backend/vendor/jqvmap/maps/continents/jquery.vmap.asia.js') }}"></script>
-		<script src="{{ asset('backend/vendor/jqvmap/maps/continents/jquery.vmap.australia.js') }}"></script>
-		<script src="{{ asset('backend/vendor/jqvmap/maps/continents/jquery.vmap.europe.js') }}"></script>
-		<script src="{{ asset('backend/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js') }}"></script>
-		<script src="{{ asset('backend/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js') }}"></script>
 
 		<!-- Theme Base, Components and Settings -->
 		<script src="{{ asset('backend/js/theme.js') }}"></script>
@@ -116,7 +112,19 @@
 
 		<!-- Examples -->
 		<script src="{{ asset('backend/js/examples/examples.dashboard.js') }}"></script>
+		
+		<!-- Toaster Notification js-->
+		<script src="{{asset('assets/toastr/toastr.min.js')}}"></script>
 
+		<!-- Show Toast Message -->
+		<script>
+			$(document).ready(function() {
+				@if(Session::has('message'))
+					<?php echo "toastr.".Session::get('alert-type')."('". Session::get('message') ."')"?>
+				@endif
+			})
+		</script>
+		
         <!-- Additional scripts -->
         @stack('scripts')
 	</body>
